@@ -9,6 +9,7 @@ import "./BookingMain.css";
 
 function BookingMain() {
   const tables = useSelector((state) => state.tables.tables);
+
   const dispatch = useDispatch();
 
   const addTableHandler = (id) => dispatch(tablesActions.onBooking(id));
@@ -16,6 +17,7 @@ function BookingMain() {
   const TableCardList = tables.map((table, index) => {
     return (
       <TableCard
+        timeRemaining={table.timeRemaining}
         onAddTable={addTableHandler}
         tableNum={table.tableNum}
         isTableBooked={table.isBooked}

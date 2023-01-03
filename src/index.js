@@ -8,9 +8,7 @@ import tablesStore from "./store/Tables-store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
-        <Provider store={tablesStore}>
-            <App />
-        </Provider>
-    </React.StrictMode>
+  <Provider store={tablesStore}>
+    <App />
+  </Provider>
 );

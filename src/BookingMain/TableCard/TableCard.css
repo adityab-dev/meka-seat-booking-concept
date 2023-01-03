@@ -30,3 +30,14 @@
 .tableEmpty {
   background: #bababa;
 }
+
+.buttonDisabled {
+  pointer-events: none;
+  background: rgb(133, 110, 110);
+  color: white;
+}
+
+.buttonEnabled {
+  background: rgb(56, 56, 128);
+  color: white;
+}
