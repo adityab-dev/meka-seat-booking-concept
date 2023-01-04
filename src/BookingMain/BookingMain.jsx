@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { tablesActions } from "../store/Tables-store";
+import { useSelector } from "react-redux";
 
 import TableCard from "./TableCard/TableCard";
 
@@ -10,15 +8,11 @@ import "./BookingMain.css";
 function BookingMain() {
   const tables = useSelector((state) => state.tables.tables);
 
-  const dispatch = useDispatch();
-
-  const addTableHandler = (id) => dispatch(tablesActions.onBooking(id));
-
   const TableCardList = tables.map((table, index) => {
     return (
       <TableCard
-        timeRemaining={table.timeRemaining}
-        onAddTable={addTableHandler}
+        isMergedWith={table.isMergedWith}
+        isTableMerged={table.isMerged}
         tableNum={table.tableNum}
         isTableBooked={table.isBooked}
         key={index}
@@ -26,7 +20,11 @@ function BookingMain() {
     );
   });
 
-  return <main className="main">{TableCardList}</main>;
+  return (
+    <main className="main">
+      <div className="mainContainer">{TableCardList}</div>
+    </main>
+  );
 }
 
 export default BookingMain;

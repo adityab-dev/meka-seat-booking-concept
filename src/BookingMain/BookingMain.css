@@ -1,6 +1,11 @@
 main {
+  display: flex;
+  justify-content: center;
+}
+
+.mainContainer {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 126px);
 
   gap: 1.5rem;
 }

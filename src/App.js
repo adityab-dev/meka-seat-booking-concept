@@ -1,11 +1,17 @@
 import BookingHeader from "./BookingHeader/BookingHeader";
 import BookingMain from "./BookingMain/BookingMain";
 
+import "./App.css";
+
 function App() {
   return (
     <>
-      <BookingHeader />
-      <BookingMain />
+      <div className="appContainer">
+        <div className="appContainerContentsWidthProvider">
+          <BookingHeader />
+          <BookingMain />
+        </div>
+      </div>
     </>
   );
 }

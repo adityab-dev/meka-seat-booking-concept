@@ -7,6 +7,8 @@ import "./BookingHeader.css";
 function BookingHeader() {
   const [tablesToMerge, setTablesToMerge] = useState("");
 
+  const { onMerge } = tablesActions;
+
   const dispatch = useDispatch();
 
   const inputChangeHandler = (event) => setTablesToMerge(event.target.value);
@@ -14,7 +16,7 @@ function BookingHeader() {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    dispatch(tablesActions.onMerge(tablesToMerge));
+    dispatch(onMerge(tablesToMerge));
     setTablesToMerge("");
   };
 
@@ -38,25 +40,32 @@ function BookingHeader() {
   );
 
   const headerForm = (
-    <form onSubmit={submitHandler}>
-      <label htmlFor="merge">Merge Table</label>
-      <input
-        type="text"
-        placeholder="Ex:- 1,2,3"
-        onChange={inputChangeHandler}
-        value={tablesToMerge}
-      />
-      <button
-        type="submit"
-        id="merge"
-      >
-        Merge
-      </button>
+    <form
+      onSubmit={submitHandler}
+      className="mergeForm"
+    >
+      <div className="labelContainer">
+        <label htmlFor="merge">Merge Table</label>
+      </div>
+      <div className="inputContainer">
+        <input
+          type="text"
+          placeholder="Ex: 1,2,3"
+          onChange={inputChangeHandler}
+          value={tablesToMerge}
+        />
+        <button
+          type="submit"
+          id="merge"
+        >
+          Merge
+        </button>
+      </div>
     </form>
   );
 
   return (
-    <header>
+    <header className="headerContainer">
       <section>{headerTop}</section>
       <section>{headerForm}</section>
     </header>

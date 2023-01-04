@@ -6,8 +6,8 @@ for (let i = 0; i < 50; i += 1) {
   const table = {
     tableNum: i + 1,
     isBooked: false,
-    timeRemaining: { hours: 0, minutes: 0, seconds: 0, totalTime: 0 },
     isMerged: false,
+    isMergedWith: [],
   };
   tables.push(table);
 }
@@ -28,7 +28,7 @@ const tablesSlice = createSlice({
       let isBooked = false;
 
       if (state.tables[tableNum - 1].isBooked === true) {
-        isBooked = true;
+        return;
       }
 
       if (!isBooked) {
@@ -46,6 +46,24 @@ const tablesSlice = createSlice({
       const tableNumArr = tableNumArrString.map((el) => +el);
 
       console.log("tableNumArr", tableNumArr);
+
+      // if array conmtains non-nums.
+
+      let containsNonNums = false;
+
+      tableNumArr.forEach((tableNum) => {
+        if (!tableNum) {
+          containsNonNums = true;
+        }
+      });
+
+      if (containsNonNums) return;
+
+      // if array items contains tableNum === 0
+
+      if (tableNumArr.includes(0)) {
+        return;
+      }
 
       // to check whether tables are in consecutive nums.
 
@@ -114,29 +132,38 @@ const tablesSlice = createSlice({
 
       if (areEligible) {
         state.mergedTablesArr.push(...tableNumArr);
+        tableNumArr.forEach((tableNum) => {
+          state.tables[tableNum - 1].isMerged = true;
+        });
+        tableNumArr.forEach((tableNum) => {
+          state.tables[tableNum - 1].isMergedWith = tableNumArr;
+        });
       }
     },
 
-    onAddTimer(state, action) {
-      const { hours, minutes, seconds, tableNum } = action.payload;
-
-      const totalTime = hours * 3600 + minutes * 60 + seconds - 1;
-
-      const newHours = Math.floor(totalTime / 3600);
-      const newMinutes = Math.floor(totalTime / 60) % 60;
-      const newSeconds = Math.floor(totalTime % 60);
-
-      const newTime = {
-        hours: newHours,
-        minutes: newMinutes,
-        seconds: newSeconds,
-        totalTime: totalTime,
-      };
+    onReservationOver(state, action) {
+      const { tableNum, isMergedWith } = action.payload;
 
       // tableNum = index + 1
       const index = tableNum - 1;
 
-      state.tables[index].timeRemaining = newTime;
+      state.tables[index].isBooked = false;
+      state.tables[index].isMerged = false;
+
+      // clears arr of current index.
+      state.tables[index].isMergedWith = [];
+
+      // clears others array of current item.
+
+      const currentItemIndex = isMergedWith.indexOf(tableNum);
+
+      const newIsMergedWith = [...isMergedWith];
+
+      newIsMergedWith.splice(currentItemIndex, 1);
+
+      isMergedWith.forEach((mergedItem) => {
+        state.tables[mergedItem].isMergedWith = newIsMergedWith;
+      });
     },
   },
 });
